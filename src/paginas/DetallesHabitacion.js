@@ -21,7 +21,7 @@ const DetallesHabitacion = () => {
     return habitacion.id === Number(id);
   });
 
-  const { name, description, facilities, imageLg, price } = habitacion;
+  const { nombre, descripcion, facilities, imageLg, valor } = habitacion; // Cambiado "price" a "valor"
 
   return (
     <section>
@@ -31,15 +31,15 @@ const DetallesHabitacion = () => {
         <div className="absolute w-full h-full bg-black/70"></div>
         {/* Título */}
         <h1 className="text-6xl text-white z-20 font-primary text-center">
-          Detalles & Informacion {name}
+          Detalles & Informacion {nombre}
         </h1>
       </div>
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row h-full py-24 ">
           {/* Izquierda */}
           <div className="w-full h-full lg:w-[60%] px-6 ">
-            <h2 className="h2">{name}</h2>
-            <p>{description}</p>
+            <h2 className="h2">{nombre}</h2>
+            <p>{descripcion}</p>
             <img className="mb-8" src={imageLg} alt="" />
             {/* Instalaciones */}
             <div className="mt-12">
@@ -89,7 +89,7 @@ const DetallesHabitacion = () => {
                 </div>
               </div>
               <button className="btn btn-lg btn-primary w-full">
-                Reservar ahora por ${price}
+                Reservar ahora por ${valor}
               </button>
             </div>
             {/* Normas */}
