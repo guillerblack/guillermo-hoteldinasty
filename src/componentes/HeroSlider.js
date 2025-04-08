@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 // Importar componentes de Swiper React
 import { Swiper, SwiperSlide } from "swiper/react";
 // Importar estilos de Swiper
@@ -30,6 +31,18 @@ const slides = [
 ];
 
 const HeroSlider = () => {
+  const navigate = useNavigate(); // Hook para navegación
+
+  const handleHabitacionesClick = () => {
+    navigate("/"); // Navegar a la página de inicio
+    setTimeout(() => {
+      const formulario = document.getElementById("formulario-reserva");
+      if (formulario) {
+        formulario.scrollIntoView({ behavior: "smooth" }); // Desplazarse al formulario
+      }
+    }, 100); // Esperar un momento para asegurar que la página cargue
+  };
+
   return (
     <Swiper
       modules={[EffectFade, Autoplay]}
@@ -56,7 +69,10 @@ const HeroSlider = () => {
               <h1 className="text-[32px] font-primary uppercase tracking-[2px] max-w-[920px] lg:text-[68px] leading-tight mb-6">
                 {title}
               </h1>
-              <button className="btn btn-lg btn-primary mx-auto">
+              <button
+                onClick={handleHabitacionesClick} // Usar la función para redirigir
+                className="btn btn-lg btn-primary mx-auto"
+              >
                 {btnText}
               </button>
             </div>

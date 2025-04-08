@@ -1,31 +1,36 @@
 import React from "react";
-//componentes
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// Componentes
 import Header from "./componentes/Header";
 import Footer from "./componentes/Footer";
-//paginas
+// Páginas
 import Inicio from "./paginas/Inicio";
 import DetallesHabitacion from "./paginas/DetallesHabitacion";
-import { createBrowserRouter, RouterProvider } from "react-router-dom"; // Importa BrowserRouter, Routes y Route
+import RolesPermisos from "./paginas/RolesPermisos";
+import HistorialReservas from "./paginas/HistorialReservas";
+import Dashboard from "./paginas/Dashboard";
+import Login from "./paginas/Login";
+import Restaurante from "./paginas/Restaurante"; // Importar Restaurante
+import SPA from "./paginas/SPA"; // Importar SPA
 
-//react router
+// Configuración de rutas
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Inicio />,
-  },
-  {
-    path: "/habitacion/:id",
-    element: <DetallesHabitacion />,
-  },
+  { path: "/", element: <Inicio /> },
+  { path: "/login", element: <Login /> },
+  { path: "/habitacion/:id", element: <DetallesHabitacion /> },
+  { path: "/roles", element: <RolesPermisos /> },
+  { path: "/historial", element: <HistorialReservas /> },
+  { path: "/dashboard", element: <Dashboard /> },
+  { path: "/restaurante", element: <Restaurante /> }, // Ruta para Restaurante
+  { path: "/spa", element: <SPA /> }, // Ruta para SPA
 ]);
 
 const App = () => {
   return (
-    <div>
+    <RouterProvider router={router}>
       <Header />
-      <RouterProvider router={router} />
       <Footer />
-    </div>
+    </RouterProvider>
   );
 };
 

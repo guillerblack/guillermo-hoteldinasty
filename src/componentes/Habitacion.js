@@ -42,7 +42,7 @@ const Habitacion = ({ habitacion }) => {
               <BsPeople className="text-[15px]" />
             </div>
             <div className="flex gap-x-1">
-              <div>Max People</div>
+              <div>Max Personas</div>
               <div>{maxPersonas}</div>
             </div>
           </div>
@@ -54,7 +54,9 @@ const Habitacion = ({ habitacion }) => {
           <h3 className="h3">{nombre}</h3>
         </Link>
         <p className="max-w-[300px] mx-auto mb-3 lg:mb-6">
-          {descripcion.slice(0, 56)}
+          {descripcion
+            ? descripcion.slice(0, 56) + "..."
+            : "Descripción no disponible"}
         </p>
       </div>
       {/*btn*/}

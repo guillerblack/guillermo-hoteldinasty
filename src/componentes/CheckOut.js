@@ -1,28 +1,25 @@
-import React, { useState } from "react";
-//captura fechas
+import React, { useContext } from "react";
 import DatePicker from "react-datepicker";
-//datepicker css
 import "react-datepicker/dist/react-datepicker.css";
 import "../datepicker.css";
-
-//iconos
 import { BsCalendar } from "react-icons/bs";
+import { ContextoHabitacion } from "../contexto/ContextoHabitacion";
 
 const CheckOut = () => {
-  const [endDate, setEndtDate] = useState(false);
+  const { fechaFin, setFechaFin } = useContext(ContextoHabitacion);
+
   return (
-    <div className="items- center w-full h-full">
-      {/*icon*/}
-      <div className="absolute z-10 pr-8">
-        <div>
-          <BsCalendar className="text-accent text-base" />
-        </div>
+    <div className="relative flex items-center h-full">
+      {/* Icono del calendario */}
+      <div className="absolute left-3">
+        <BsCalendar className="text-accent text-lg" />
       </div>
+      {/* Selector de fecha */}
       <DatePicker
-        className="w-full h-full"
-        selected={endDate}
-        placeholderText="Check out"
-        onChange={(date) => setEndtDate(date)}
+        className="w-full h-10 pl-10 border rounded-md focus:outline-none"
+        selected={fechaFin}
+        placeholderText="Check Out"
+        onChange={(date) => setFechaFin(date)}
       />
     </div>
   );
