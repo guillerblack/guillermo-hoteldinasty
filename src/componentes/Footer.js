@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Importar axios
+import api from "../utils/api"; // Importar la instancia de Axios
 import LogoWhite from "../assets/img/logo-white.svg";
 
 const Footer = () => {
@@ -16,7 +16,7 @@ const Footer = () => {
   const handleContacto = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/api/contacto", formData);
+      await api.post("/contacto", formData); // Usar api.post
       alert("Mensaje enviado con éxito.");
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);

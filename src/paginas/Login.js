@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
-import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Para redirección
 import Header from "../componentes/Header"; // Ruta corregida
 import Footer from "../componentes/Footer"; // Importar Footer
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase"; // Importar Firebase auth
+import { db } from "../utils/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false); // Alternar entre login y registro
@@ -22,53 +28,25 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Limpiar mensaje de error previo
-
     try {
-      const endpoint = isRegister ? "/api/register" : "/api/login";
-      const response = await axios.post(
-        `http://localhost:8000${endpoint}`,
-        { ...formData, role } // Enviar el rol junto con los datos
-      );
-
-      if (!isRegister) {
-        // Guardar token y datos del usuario en localStorage
-        const { token, user } = response.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("userName", user.name);
-        localStorage.setItem("userEmail", user.email);
-        localStorage.setItem("userRole", user.role);
-
-        // Redirigir según el rol del usuario
-        if (user.role === "admin") {
-          navigate("/dashboard"); // Redirigir al dashboard si es administrador
-        } else {
-          navigate("/historial"); // Redirigir al historial de reservas si es usuario regular
-        }
+      if (isRegister) {
+        await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        alert("Usuario registrado con éxito.");
       } else {
-        alert("Registro exitoso. Por favor, inicia sesión.");
-        setIsRegister(false); // Cambiar a modo login después del registro
+        await signInWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        alert("Inicio de sesión exitoso.");
+        navigate("/historial");
       }
     } catch (error) {
-      // Manejar errores de la API
-      if (error.response && error.response.data) {
-        if (error.response.data.errors) {
-          // Mostrar errores específicos de validación
-          setErrorMessage(
-            error.response.data.errors.password?.[0] ||
-              error.response.data.errors.email?.[0] ||
-              "Error desconocido."
-          );
-        } else {
-          // Mostrar mensaje de error general
-          setErrorMessage(
-            error.response.data.message || "Credenciales incorrectas."
-          );
-        }
-      } else {
-        console.error("Error en la autenticación:", error.message);
-        setErrorMessage("Error en la autenticación. Intenta nuevamente.");
-      }
+      setErrorMessage("Error en la autenticación: " + error.message);
     }
   };
 
@@ -192,6 +170,19 @@ const Login = () => {
         </div>
       </div>
       <Footer /> {/* Agregar Footer */}
+      {/* Mostrar opciones de administración si el rol es admin */}
+      {(() => {
+        const userRole = localStorage.getItem("userRole");
+        if (userRole === "admin") {
+          // Mostrar opciones de administración
+          return (
+            <div className="text-center mt-4">
+              Opciones de administración disponibles
+            </div>
+          );
+        }
+        return null;
+      })()}
     </>
   );
 };

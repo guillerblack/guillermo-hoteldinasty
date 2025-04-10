@@ -1,13 +1,9 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 // Componentes
-import AdultsDropdown from "../componentes/AdultsDropdown";
-import KidsDropdown from "../componentes/KidsDropdown";
-import CheckIn from "../componentes/CheckIn";
-import CheckOut from "../componentes/CheckOut";
+import FormularioHabitacionReservada from "../componentes/FormularioHabitacionReservada";
 import Header from "../componentes/Header"; // Importar Header
 import Footer from "../componentes/Footer"; // Importar Footer
-// Contexto
 import { ContextoHabitacion } from "../contexto/ContextoHabitacion";
 // Iconos
 import { FaCheck } from "react-icons/fa";
@@ -21,6 +17,10 @@ const DetallesHabitacion = () => {
     return habitacion.id === Number(id);
   });
 
+  if (!habitacion) {
+    return <p>Habitación no encontrada.</p>;
+  }
+
   const { nombre, descripcion, facilities, imageLg, valor } = habitacion;
 
   return (
@@ -33,7 +33,7 @@ const DetallesHabitacion = () => {
           <div className="absolute w-full h-full bg-black/70"></div>
           {/* Título */}
           <h1 className="text-6xl text-white z-20 font-primary text-center">
-            Detalles & Informacion {nombre}
+            Detalles & Información {nombre}
           </h1>
         </div>
         <div className="container mx-auto">
@@ -51,7 +51,7 @@ const DetallesHabitacion = () => {
                   placeat eos sed voluptas unde veniam eligendi a. Quaerat
                   molestiae hic omnis temporibus quos consequuntur nam
                   voluptatum ea accusamus, corrupti nostrum eum placeat
-                  quibusdam quis beatae quae labore earum architecto aliquid
+                  quibusdam quis beatae quae labore earum architecto algo
                   debitis.
                 </p>
                 {/* Grid */}
@@ -73,27 +73,13 @@ const DetallesHabitacion = () => {
             </div>
             {/* Derecha */}
             <div className="w-full h-full lg:w-[40%] ">
-              {/* Reserva */}
-              <div className="py-8 px-6 bg-accent/20 mb-12">
-                <div className="flex flex-col space-y-4 mb-4">
-                  <h3>Tu reserva</h3>
-                  <div className="h-[60px]">
-                    <CheckIn />
-                  </div>
-                  <div className="h-[60px]">
-                    <CheckOut />
-                  </div>
-                  <div className="h-[60px]">
-                    <AdultsDropdown />
-                  </div>
-                  <div className="h-[60px]">
-                    <KidsDropdown />
-                  </div>
-                </div>
-                <button className="btn btn-lg btn-primary w-full">
-                  Reservar ahora por ${valor}
-                </button>
-              </div>
+              {/* Formulario de habitación reservada */}
+              <FormularioHabitacionReservada
+                habitacionId={habitacion.id}
+                valorHabitacion={habitacion.valor}
+                nombreHabitacion={habitacion.nombre}
+              />
+
               {/* Normas */}
               <div>
                 <h3 className="h3">Normas del hotel</h3>

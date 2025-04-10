@@ -7,10 +7,8 @@ import HabitacionProvedor from "./contexto/ContextoHabitacion";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HabitacionProvedor>
-    <HabitacionProvedor>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </HabitacionProvedor>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
   </HabitacionProvedor>
 );

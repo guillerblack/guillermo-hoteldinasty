@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import axios from "axios"; // Import axios
-import api from "../utils/api"; // Import api
+import api from "../utils/api"; // Importar la instancia de Axios
 // Datos
 import { habitacionData } from "../data";
 
@@ -25,7 +24,7 @@ const HabitacionProveedor = ({ children }) => {
   useEffect(() => {
     const fetchHabitaciones = async () => {
       try {
-        const response = await api.get("/habitaciones");
+        const response = await api.get("/habitaciones"); // Usar api.get
         setHabitaciones(response.data);
       } catch (error) {
         console.error("Error al cargar habitaciones:", error);
@@ -46,7 +45,7 @@ const HabitacionProveedor = ({ children }) => {
   const handleReserva = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/reservas", {
+      await api.post("/reservas", {
         fecha_inicio: fechaInicio,
         fecha_fin: fechaFin,
         adultos,

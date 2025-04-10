@@ -1,19 +1,41 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import api from "../utils/api"; // Importar la instancia de Axios
 
 const RolesPermisos = () => {
   const [roles, setRoles] = useState([]);
   const [nuevoRol, setNuevoRol] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userRole = localStorage.getItem("userRole");
+    if (userRole !== "admin") {
+      navigate("/"); // Redirigir al inicio si no es administrador
+    }
+  }, [navigate]);
 
   const fetchRoles = async () => {
-    const response = await axios.get("http://localhost:8000/api/roles");
-    setRoles(response.data);
+    try {
+      const response = await api.get("/roles");
+      setRoles(response.data);
+    } catch (error) {
+      if (error.response?.status === 403) {
+        alert("No tienes permisos para acceder a esta sección.");
+        navigate("/");
+      } else {
+        console.error("Error al cargar roles:", error);
+      }
+    }
   };
 
   const crearRol = async () => {
-    await axios.post("http://localhost:8000/api/roles", { name: nuevoRol });
-    setNuevoRol("");
-    fetchRoles();
+    try {
+      await api.post("/roles", { name: nuevoRol }); // Crear un nuevo rol
+      setNuevoRol("");
+      fetchRoles();
+    } catch (error) {
+      console.error("Error al crear rol:", error);
+    }
   };
 
   useEffect(() => {

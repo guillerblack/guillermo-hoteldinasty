@@ -1,13 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
-// Importar componentes de Swiper React
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-// Importar estilos de Swiper
+import { EffectFade, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-// Importar módulos requeridos
-import { EffectFade, Autoplay } from "swiper";
-// Imágenes
+
 import Img1 from "../assets/img/heroSlider/1.jpg";
 import Img2 from "../assets/img/heroSlider/2.jpg";
 import Img3 from "../assets/img/heroSlider/3.jpg";
@@ -24,29 +21,29 @@ const slides = [
     btnText: "Ver nuestras habitaciones",
   },
   {
-    title: "dinasty tu otro hogar",
+    title: "Dinasty, tu otro hogar",
     bg: Img3,
     btnText: "Ver nuestras habitaciones",
   },
 ];
 
 const HeroSlider = () => {
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate();
 
   const handleHabitacionesClick = () => {
-    navigate("/"); // Navegar a la página de inicio
+    navigate("/");
     setTimeout(() => {
       const formulario = document.getElementById("formulario-reserva");
       if (formulario) {
-        formulario.scrollIntoView({ behavior: "smooth" }); // Desplazarse al formulario
+        formulario.scrollIntoView({ behavior: "smooth" });
       }
-    }, 100); // Esperar un momento para asegurar que la página cargue
+    }, 100);
   };
 
   return (
     <Swiper
       modules={[EffectFade, Autoplay]}
-      effect={"fade"}
+      effect="fade"
       loop={true}
       autoplay={{
         delay: 3000,
@@ -55,32 +52,32 @@ const HeroSlider = () => {
       className="heroSlider h-[600px] lg:h-[860px]"
     >
       {slides.map((slide, index) => {
-        // Desestructurar slide
         const { title, bg, btnText } = slide;
         return (
-          <SwiperSlide
-            className="h-full bg-pink-400 relative flex justify-center items-center"
-            key={index}
-          >
-            <div className="z-20 text-white text-center">
-              <div className="uppercase font-tertiary tracking-[6px] mb-5">
+          <SwiperSlide key={index} className="relative h-full">
+            {/* Fondo */}
+            <div className="absolute top-0 w-full h-full z-0">
+              <img className="object-cover w-full h-full" src={bg} alt="" />
+            </div>
+
+            {/* Overlay */}
+            <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10"></div>
+
+            {/* Contenido centrado */}
+            <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-white text-center px-4">
+              <p className="uppercase font-tertiary tracking-[6px] mb-4 text-sm lg:text-base drop-shadow-md">
                 Simplemente disfruta y relájate
-              </div>
-              <h1 className="text-[32px] font-primary uppercase tracking-[2px] max-w-[920px] lg:text-[68px] leading-tight mb-6">
+              </p>
+              <h1 className="text-[32px] lg:text-[64px] font-primary uppercase tracking-[2px] leading-tight mb-6 drop-shadow-md max-w-[90%]">
                 {title}
               </h1>
               <button
-                onClick={handleHabitacionesClick} // Usar la función para redirigir
-                className="btn btn-lg btn-primary mx-auto"
+                onClick={handleHabitacionesClick}
+                className="bg-primary text-white px-4 py-2 rounded-md text-sm hover:bg-primary/80 transition duration-300"
               >
                 {btnText}
               </button>
             </div>
-            <div className="absolute top-0 w-full h-full">
-              <img className="object-cover h-full w-full" src={bg} alt="" />
-            </div>
-            {/* Overlays */}
-            <div className="absolute w-full h-full bg-black/70"></div>
           </SwiperSlide>
         );
       })}

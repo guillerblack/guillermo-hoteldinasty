@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import Footer from "../componentes/Footer"; // Importar Footer
 import Header from "../componentes/Header";
 
@@ -9,7 +9,7 @@ const SPA = () => {
   useEffect(() => {
     const fetchServicios = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/servicios");
+        const response = await api.get("/servicios");
         setServicios(response.data);
       } catch (error) {
         console.error("Error al cargar servicios:", error);

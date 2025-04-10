@@ -6,6 +6,10 @@ import logoDark from "../assets/img/logo-dark.svg";
 const Header = () => {
   const [header, setHeader] = useState(false);
   const navigate = useNavigate(); // Hook para navegación
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
+  const userRole = localStorage.getItem("userRole");
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -21,6 +25,12 @@ const Header = () => {
         formulario.scrollIntoView({ behavior: "smooth" }); // Desplazarse al formulario
       }
     }, 100); // Esperar un momento para asegurar que la página cargue
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsAuthenticated(false);
+    navigate("/");
   };
 
   return (
@@ -62,13 +72,28 @@ const Header = () => {
           <a href="#contacto" className="hover:text-accent transition">
             Contacto
           </a>
-          {/* Botón de Login */}
-          <a
-            href="/login"
-            className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-opacity-80 transition-all"
-          >
-            Login
-          </a>
+          {/* Mostrar enlace a Roles solo para administradores */}
+          {userRole === "admin" && (
+            <a href="/roles" className="hover:text-accent transition">
+              Roles
+            </a>
+          )}
+          {/* Botón de Login o Logout */}
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-opacity-80 transition-all"
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <a
+              href="/login"
+              className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-opacity-80 transition-all"
+            >
+              Login
+            </a>
+          )}
         </nav>
       </div>
     </header>
