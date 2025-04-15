@@ -21,7 +21,7 @@ const Inicio = () => {
         </div>
       </div>
       <Habitaciones />
-      <Footer /> {/* Agregar Footer */}
+      <Footer /> {/* Agregar Footerr */}
     </>
   );
 };

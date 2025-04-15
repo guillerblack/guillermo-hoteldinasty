@@ -10,16 +10,15 @@ const CheckIn = () => {
 
   return (
     <div className="relative flex items-center h-full">
-      {/* Icono del calendario */}
       <div className="absolute left-4">
         <BsCalendar className="text-accent text-2xl" />
       </div>
-      {/* Selector de fecha */}
       <DatePicker
         className="w-full h-14 pl-12 text-lg border rounded-md focus:outline-none"
         selected={fechaInicio}
         placeholderText="Check In"
         onChange={(date) => setFechaInicio(date)}
+        minDate={new Date()} // No permite seleccionar fechas anteriores a hoy
       />
     </div>
   );

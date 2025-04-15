@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { signOut, onAuthStateChanged } from "firebase/auth"; // Importar Firebase Auth
+import { auth } from "../utils/firebase"; // Importar configuración de Firebase
 import logoWhite from "../assets/img/logo-white.svg";
 import logoDark from "../assets/img/logo-dark.svg";
 
 const Header = () => {
   const [header, setHeader] = useState(false);
   const navigate = useNavigate(); // Hook para navegación
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("token")
-  );
-  const userRole = localStorage.getItem("userRole");
+  const [user, setUser] = useState(null); // Estado para el usuario autenticado
+
+  useEffect(() => {
+    // Monitorear el estado de autenticación
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // Actualiza el estado del usuario
+    });
+    return () => unsubscribe(); // Limpia el listener al desmontar el componente
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -27,10 +34,15 @@ const Header = () => {
     }, 100); // Esperar un momento para asegurar que la página cargue
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Cerrar sesión en Firebase
+      alert("Sesión cerrada con éxito.");
+      setUser(null); // Limpia el estado del usuario
+      navigate("/"); // Redirigir a la página de inicio
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   return (
@@ -72,17 +84,11 @@ const Header = () => {
           <a href="#contacto" className="hover:text-accent transition">
             Contacto
           </a>
-          {/* Mostrar enlace a Roles solo para administradores */}
-          {userRole === "admin" && (
-            <a href="/roles" className="hover:text-accent transition">
-              Roles
-            </a>
-          )}
           {/* Botón de Login o Logout */}
-          {isAuthenticated ? (
+          {user ? (
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-opacity-80 transition-all"
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
             >
               Cerrar sesión
             </button>
