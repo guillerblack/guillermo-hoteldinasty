@@ -3,12 +3,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 //iconos
 import { BsPeople, BsArrowsFullscreen } from "react-icons/bs";
-const Habitacion = ({ habitacion }) => {
+
+const Habitacion = ({ habitacion, onSelect, isSelected }) => {
   //destructrutura habitacion
   const { id, nombre, image, tamaño, maxPersonas, descripcion, valor } =
     habitacion;
+
+  const handleSelect = () => {
+    onSelect(id);
+  };
+
   return (
-    <div className="bg-white shadow-2xl min-h-[500px] group">
+    <div className={`bg-white shadow-2xl min-h-[500px] group ${isSelected ? 'border-4 border-accent' : ''}`}> {/* Added border for selection */}
       {/*img */}
       <div className="overflow-hidden">
         <img
@@ -58,9 +64,17 @@ const Habitacion = ({ habitacion }) => {
         </p>
       </div>
       {/*btn*/}
+      <div className="flex justify-center"> {/* Added container for button */}
+        <button         
+          onClick={handleSelect}
+          className="btn btn-primary btn-sm max-w-[240px] mx-auto"
+        >
+          {isSelected ? "Seleccionada" : "Seleccionar"} {/* Changed text based on selection */}
+        </button>
+      </div>
       <Link
         to={`/habitacion/${id}`}
-        className=" btn btn-secondary btn-sm max-w-[240px] mx-auto"
+        className="btn btn-secondary btn-sm max-w-[240px] mx-auto mt-2"  // Added margin-top
       >
         Reserva desde ${valor}
       </Link>

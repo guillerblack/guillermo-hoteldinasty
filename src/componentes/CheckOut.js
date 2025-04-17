@@ -1,28 +1,24 @@
 import React, { useState } from "react";
-//captura fechas
 import DatePicker from "react-datepicker";
-//datepicker css
 import "react-datepicker/dist/react-datepicker.css";
-import "../datepicker.css";
-
-//iconos
 import { BsCalendar } from "react-icons/bs";
 
-const CheckOut = () => {
-  const [endDate, setEndtDate] = useState(false);
+const CheckOut = ({ onChange }) => { // Accept onChange prop
+  const [endDate, setEndDate] = useState(false);
   return (
-    <div className="items- center w-full h-full">
-      {/*icon*/}
+    <div className="relative flex items-center h-full max-w-[250px] mx-auto">
       <div className="absolute z-10 pr-8">
-        <div>
-          <BsCalendar className="text-accent text-base" />
-        </div>
+        <BsCalendar className="text-accent text-base" />
       </div>
       <DatePicker
-        className="w-full h-full"
+        className="w-full h-full pl-12"
         selected={endDate}
-        placeholderText="Check out"
-        onChange={(date) => setEndtDate(date)}
+        placeholderText="Check Out"
+        onChange={(date) => {
+          setEndDate(date);
+          onChange(date); // Call onChange with the selected date
+        }}
+        minDate={new Date()}
       />
     </div>
   );
