@@ -6,32 +6,71 @@ import Footer from "./componentes/Footer";
 // Páginas
 import Inicio from "./paginas/Inicio";
 import DetallesHabitacion from "./paginas/DetallesHabitacion";
-import RolesPermisos from "./paginas/RolesPermisos";
 import HistorialReservas from "./paginas/HistorialReservas";
-import Dashboard from "./paginas/Dashboard";
 import Login from "./paginas/Login";
-import Restaurante from "./paginas/Restaurante"; // Importar Restaurante
-import SPA from "./paginas/SPA"; // Importar SPA
+import Restaurante from "./paginas/Restaurante";
+import SPA from "./paginas/SPA";
+
+// Layout principal con Header y Footer
+const MainLayout = ({ children }) => (
+  <>
+    <Header />
+    {children}
+    <Footer />
+  </>
+);
 
 // Configuración de rutas
 const router = createBrowserRouter([
-  { path: "/", element: <Inicio /> },
-  { path: "/login", element: <Login /> },
-  { path: "/habitacion/:id", element: <DetallesHabitacion /> },
-  { path: "/roles", element: <RolesPermisos /> },
-  { path: "/historial", element: <HistorialReservas /> },
-  { path: "/dashboard", element: <Dashboard /> },
-  { path: "/restaurante", element: <Restaurante /> }, // Ruta para Restaurante
-  { path: "/spa", element: <SPA /> }, // Ruta para SPA
+  {
+    path: "/",
+    element: (
+      <MainLayout>
+        <Inicio />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/login",
+    element: <Login />, // Sin Header ni Footer
+  },
+  {
+    path: "/habitacion/:id",
+    element: (
+      <MainLayout>
+        <DetallesHabitacion />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/historial",
+    element: (
+      <MainLayout>
+        <HistorialReservas />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/restaurante",
+    element: (
+      <MainLayout>
+        <Restaurante />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/spa",
+    element: (
+      <MainLayout>
+        <SPA />
+      </MainLayout>
+    ),
+  },
+  // Agrega otras rutas que necesiten el layout principal aquí
 ]);
 
 const App = () => {
-  return (
-    <RouterProvider router={router}>
-      <Header />
-      <Footer />
-    </RouterProvider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

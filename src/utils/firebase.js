@@ -10,6 +10,7 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyCSHsc5zIBBwVgbaNSDZS1nEHUDxXuUB3k",
   authDomain: "hotel-dinasty2834916.firebaseapp.com",
+  databaseURL: "https://hotel-dinasty2834916-default-rtdb.firebaseio.com",
   projectId: "hotel-dinasty2834916",
   storageBucket: "hotel-dinasty2834916.firebasestorage.app",
   messagingSenderId: "603492990430",

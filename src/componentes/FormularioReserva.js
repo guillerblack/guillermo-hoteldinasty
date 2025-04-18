@@ -3,8 +3,9 @@ import React, { useContext, useState } from "react";
 import AdultsDropdown from "./AdultsDropdown";
 import KidsDropdown from "./KidsDropdown";
 import { ContextoHabitacion } from "../contexto/ContextoHabitacion";
+import { crearReserva } from "../utils/firestore";
 
-const FormularioReserva = () => {
+const FormularioReserva = ({ habitacionId, valorHabitacion }) => {
   const { handleClick } = useContext(ContextoHabitacion);
 
   // Estado para manejar adultos y niños
@@ -18,6 +19,21 @@ const FormularioReserva = () => {
 
   const handleNiñosChange = (value) => {
     setNiños(value);
+  };
+
+  const handleReserva = async () => {
+    const reserva = {
+      firebase_user_id: "user123", // Reemplaza con el ID del usuario autenticado
+      nombreUsuario: "Juan Pérez",
+      correoUsuario: "juan@example.com",
+      habitacion_id: habitacionId,
+      checkIn: "2025-04-20",
+      checkOut: "2025-04-25",
+      totalPersonas: adultos + niños,
+      valorHabitacion,
+    };
+    await crearReserva(reserva);
+    alert("Reserva creada con éxito");
   };
 
   return (
@@ -40,6 +56,11 @@ const FormularioReserva = () => {
           className="btn btn-primary"
         >
           HABITACIONES DISPONIBLES
+        </button>
+
+        {/* Botón para reservar */}
+        <button onClick={handleReserva} className="btn btn-secondary">
+          Reservar
         </button>
       </div>
     </form>
