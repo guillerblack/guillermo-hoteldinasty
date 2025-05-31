@@ -32,7 +32,7 @@ const Footer = () => {
           <a href="/">
             <img src={LogoWhite} alt="Logo" className="h-60 mb-4" />
           </a>
-          <p>2024 Proyecto SENA ADSO Ficha: 2675857.</p>
+          <p>2025 Proyecto SENA ADSO Ficha: 2834916.</p>
         </div>
 
         {/* Formulario de contacto */}
@@ -88,7 +88,7 @@ const Footer = () => {
 
       <div className="container mx-auto text-center mt-8 border-t border-gray-700 pt-4">
         <p className="text-sm">
-          &copy; 2024 Hotel Dinasty. Todos los derechos reservados.
+          &copy; 2025 Hotel Dinasty. Todos los derechos reservados.
         </p>
         <div className="flex justify-center space-x-4 mt-2">
           <a href="/terminos" className="hover:underline">
